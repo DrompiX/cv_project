@@ -6,8 +6,8 @@ import os
 from PIL import Image
 from torchsummary import summary
 from model import *
-from classifier.model import predictFolder
-import imageio
+from classifier import predictFolder
+from cyclegan import trainOnFruitPair
 
 fruitsFolder = "tests"
 def transferAtoB(fruitNameA,fruitNameB,amount):
@@ -61,6 +61,10 @@ def transferAtoB(fruitNameA,fruitNameB,amount):
 
 fruits = ["Banana","Lemon","Orange","Apple","Cocos"]
 
+for fruitA in fruits:
+	for fruitB in fruits:
+		if fruitA!=fruitB:
+			trainOnFruitPair(fruitA,fruitB,20)
 for fruitA in fruits:
 	for fruitB in fruits:
 		if fruitA!=fruitB:
