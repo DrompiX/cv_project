@@ -6,8 +6,8 @@ import os
 from PIL import Image
 from torchsummary import summary
 from model import *
-from classifier.model import predictFolder
-import imageio
+from classifier import predictFolder
+from cyclegan import trainOnFruitPair
 
 fruitsFolder = "tests"
 def transferAtoB(fruitNameA,fruitNameB,amount):
@@ -59,25 +59,16 @@ def transferAtoB(fruitNameA,fruitNameB,amount):
 		if i > amount:
 			break
 
-def saveGIF(path, name):
-	images = []
-	for filename in os.listdir(path):
-		images.append(imageio.imread(path+"/"+filename))
-	imageio.mimsave(name+'.gif', images,duration=0.25)
-
-#Banana +
-#Lemon +
-#Orange +
-#Apple +
-#Cocos +
-
 fruits = ["Banana","Lemon","Orange","Apple","Cocos"]
-'''
+
+for fruitA in fruits:
+	for fruitB in fruits:
+		if fruitA!=fruitB:
+			trainOnFruitPair(fruitA,fruitB,20)
 for fruitA in fruits:
 	for fruitB in fruits:
 		if fruitA!=fruitB:
 			transferAtoB(fruitA,fruitB,100)	
-'''
 
 for fruit in fruits:
 	foolMeter = 0
@@ -86,7 +77,3 @@ for fruit in fruits:
 		if pred==fruit:
 			foolMeter+=1
 	print("Generated {} score : {}".format(fruit,foolMeter/len(preds)))
-'''
-for fruit in fruits:
-	saveGIF("toClassify/"+fruit,fruit)
-	'''
